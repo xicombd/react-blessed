@@ -8,6 +8,7 @@
     "build": "babel ./src --out-dir ./dist",
     "dashboard": "babel-node ./examples/dashboard.jsx",
     "demo": "babel-node ./examples/demo.jsx",
+    "contrib": "babel-node ./examples/contrib.jsx",
     "prepublish": "npm run build",
     "test": "mocha -R spec --compilers js:babel/register ./test/endpoint.js"
   },
@@ -35,6 +36,7 @@
     "react": "^0.14.0"
   },
   "dependencies": {
+    "blessed-contrib": "^2.4.1",
     "invariant": "^2.1.0",
     "lodash": "^3.6.0"
   }
