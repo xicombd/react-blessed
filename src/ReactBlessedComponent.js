@@ -5,12 +5,13 @@
  * React component abstraction for the blessed library.
  */
 import blessed from 'blessed';
+import contrib from 'blessed-contrib';
 import ReactMultiChild from 'react/lib/ReactMultiChild';
 import ReactBlessedIDOperations from './ReactBlessedIDOperations';
 import invariant from 'invariant';
 import update from './update';
 import solveClass from './solveClass';
-import {extend, groupBy, startCase} from 'lodash';
+import {extend, groupBy, startCase, startsWith} from 'lodash';
 
 /**
  * Variable types that must be solved as content rather than real children.
@@ -103,14 +104,14 @@ export default class ReactBlessedComponent {
   mountNode(parent, element) {
     const {props, type} = element,
           {children, ...options} = props,
-          blessedElement = blessed[type];
+          blessedElement = startsWith(type, 'contrib') ? contrib[type.replace('contrib', '')] : blessed[type];
 
     invariant(
       !!blessedElement,
       `Invalid blessed element "${type}".`
     );
 
-    const node = blessed[type](solveClass(options));
+    const node = blessedElement(solveClass(options));
 
     node.on('event', this._eventListener);
     parent.append(node);
